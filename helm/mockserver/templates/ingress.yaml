@@ -30,13 +30,15 @@ spec:
     - host: {{ . }}
       http:
         paths:
-          - path: {{ $.Values.ingress.path }}
+          {{- range $.Values.ingress.path }}
+          - path: {{ . }}
             backend:
               {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
               service:
                 name: {{ template "release.name" $ }}
                 port:
                   number: {{ $.Values.service.port }}
+            {{- end }}
             pathType: {{ $.Values.ingress.pathType }}
               {{- else }}
               serviceName: {{ template "release.name" . }}

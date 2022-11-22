@@ -24,7 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - fixed handling of additional content-type parameter and special characters in the content-type such as '+'
 - removed invalid extra content-encoding header add when forwarding if content-encoding was not present
 
-## [5.14.0] - 2022-08-22
+## [5.14.1] - 2022-08-22
 
 ### Added
 - added support for json serialisation and de-serialisation java date time

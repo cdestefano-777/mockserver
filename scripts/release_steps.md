@@ -11,26 +11,26 @@
     5. update README
     6. rm -rf jekyll-www.mock-server.com/_site
     7. ./mvnw clean
-    8. find and replace maven / npm version references include 5.14.x, 5.14.0 and 5.14.1-SNAPSHOT (to new SNAPSHOT verion)
+    8. find and replace maven / npm version references include 5.14.x, 5.14.1 and 5.14.1-SNAPSHOT (to new SNAPSHOT verion)
     9. find and replace swagger version references (i.e. in website code example documentation) - 5.14.x mentioned in item above
     10. find and replace SNAPSHOT version references - 5.14.1-SNAPSHOT mentioned in item above
     11. git add -A && git commit -m "updates after a release" && git push origin master
 4. update mockserver-node
     1. rm -rf package-lock.json node_modules
-    2. find and replace MockServer version both 5.14.0 and 5.14.x
+    2. find and replace MockServer version both 5.14.1 and 5.14.x
     3. nvm use v16.14.1
     4. npm i
     5. grunt
-    6. git add -A && git commit -m "upgraded to MockServer 5.14.0" && git push origin master && git tag mockserver-5.14.0 && git push origin --tags
+    6. git add -A && git commit -m "upgraded to MockServer 5.14.1" && git push origin master && git tag mockserver-5.14.1 && git push origin --tags
     11. npm login
     12. npm publish --access=public --otp=****
 5. update mockserver-client-node
     1. rm -rf package-lock.json node_modules
-    2. find and replace MockServer version both 5.14.0 and 5.14.x
+    2. find and replace MockServer version both 5.14.1 and 5.14.x
     3. nvm use v16.14.1
     4. npm i
     5. grunt
-    6. git add -A && git commit -m "upgraded to MockServer 5.14.0" && git push origin master && git tag mockserver-5.14.0 && git push origin --tags
+    6. git add -A && git commit -m "upgraded to MockServer 5.14.1" && git push origin master && git tag mockserver-5.14.1 && git push origin --tags
     9. npm login (not required if done recently)
     10. npm publish --access=public --otp=****
 6. update mockserver-maven-plugin
@@ -38,7 +38,7 @@
     2. update jar-with-dependencies SNAPSHOT version to RELEASE version
     3. update integration-testing SNAPSHOT version to RELEASE version
     4. ./scripts/local_deploy_snapshot.sh
-    5. git add -A && git commit -m "upgraded to MockServer 5.14.0" && git push origin master
+    5. git add -A && git commit -m "upgraded to MockServer 5.14.1" && git push origin master
     6. ./scripts/local_release.sh
     7. release on Maven https://oss.sonatype.org/index.html#stagingRepositories
     8. close -> release (auto drop)
@@ -51,23 +51,23 @@
     1. ensure maven returns the latest release
         1. curl -v https://oss.sonatype.org/service/local/artifact/maven/redirect\?r\=releases\&g\=org.mock-server\&a\=mockserver-netty\&c\=shaded\&e\=jar\&v\=RELEASE
     2. update Dockerfile (no longer required as done in earlier step)
-    3. docker build --no-cache -t mockserver/mockserver:mockserver-5.14.0 ./docker && docker build --no-cache -t mockserver/mockserver:5.14.0 ./docker
+    3. docker build --no-cache -t mockserver/mockserver:mockserver-5.14.1 ./docker && docker build --no-cache -t mockserver/mockserver:5.14.1 ./docker
     6. docker login
-    7. docker push mockserver/mockserver:mockserver-5.14.0 && docker push mockserver/mockserver:5.14.0
+    7. docker push mockserver/mockserver:mockserver-5.14.1 && docker push mockserver/mockserver:5.14.1
 8. update helm chart
     1. find and replace previous MockServer release version to new release
     2. cd helm
     3. helm package ./mockserver/
     4. cd ~/git/mockserver/mockserver/helm/charts
-    5. mv /Users/jamesbloom/git/mockserver/mockserver/helm/mockserver-5.14.0.tgz .
+    5. mv /Users/jamesbloom/git/mockserver/mockserver/helm/mockserver-5.14.1.tgz .
     6. helm repo index .
     7. open . && open https://s3.console.aws.amazon.com/s3/buckets/aws-website-mockserver-nb9hq
     8. upload new chart and index.yaml to S3 https://s3.console.aws.amazon.com/s3/buckets/aws-website-mockserver-nb9hq
     9. git add -A && git commit -m "added new heml chart release" && git pull --rebase && git push origin master
 9. add javaDoc
-   1. git checkout mockserver-5.14.0
+   1. git checkout mockserver-5.14.1
    2. export JAVA_HOME=`/usr/libexec/java_home -v 1.8` or export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_201.jdk/Contents/Home
-   3. ./mvnw javadoc:aggregate -P release -DreportOutputDirectory='/Users/jamesbloom/git/mockserver/javadoc/5.14.0'
+   3. ./mvnw javadoc:aggregate -P release -DreportOutputDirectory='/Users/jamesbloom/git/mockserver/javadoc/5.14.1'
    4. open /Users/jamesbloom/git/mockserver/javadoc && open https://s3.console.aws.amazon.com/s3/buckets/aws-website-mockserver-nb9hq/versions/?region=us-east-1
    5. upload as public to S3 https://s3.console.aws.amazon.com/s3/buckets/aws-website-mockserver-nb9hq/versions/?region=us-east-1
    6. git checkout master
@@ -106,11 +106,11 @@
     2. delete https://github.com/jamesdbloom/homebrew-core
     3. rename forked repos if they exist i.e. https://github.com/jamesdbloom/homebrew-core-1 to https://github.com/jamesdbloom/homebrew-core
     4. git -C "$(brew --repo homebrew/core)" checkout master
-    5. git -C "$(brew --repo homebrew/core)" branch -D bump-mockserver-5.14.0
+    5. git -C "$(brew --repo homebrew/core)" branch -D bump-mockserver-5.14.1
     6. git -C "$(brew --repo homebrew/core)" reset --hard HEAD
     7. brew update
     8. HOMEBREW_GITHUB_API_TOKEN=<token value> **Note:** use personal access token as password (due to lack of 2FA) - if expired create new token with full repo access only
-    9. brew bump-formula-pr --strict mockserver --url="https://search.maven.org/remotecontent?filepath=org/mock-server/mockserver-netty/5.14.0/mockserver-netty-5.14.0-brew-tar.tar"
+    9. brew bump-formula-pr --strict mockserver --url="https://search.maven.org/remotecontent?filepath=org/mock-server/mockserver-netty/5.14.1/mockserver-netty-5.14.1-brew-tar.tar"
 
 ## Cleanup Failed Release Steps
 
@@ -118,6 +118,6 @@
    1. git reset --hard 4fa8917c8
    2. git push --force
 2. delete tags
-   1. git tag -d mockserver-5.14.0
-   2. git push origin :refs/tags/mockserver-5.14.0
+   1. git tag -d mockserver-5.14.1
+   2. git push origin :refs/tags/mockserver-5.14.1
 3. drop staging repository https://oss.sonatype.org/#stagingRepositories
